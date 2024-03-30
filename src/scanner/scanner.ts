@@ -5,24 +5,22 @@ export function Scanner(code: string) {
   const tokens: Token[] = [];
   const errors: string[] = [];
 
-  const line = code
+  const normalizedCode = code
     .split('\n')
     .map((line) => line.trim())
     .join(' ');
 
-  const cleanedLine = line.trim();
-
   let currentToken = '';
   let currentState: ScannerStates = ScannerStates.Start;
 
-  for (let i = 0; i < cleanedLine.length; i++) {
-    const char = cleanedLine[i];
+  for (let i = 0; i < normalizedCode.length; i++) {
+    const char = normalizedCode[i];
     switch (currentState) {
       case ScannerStates.Start:
         if (char === ' ') {
           continue;
         } else if (char.match(/[a-zA-Z]/)) {
-          currentState = ScannerStates.Identifier;
+          currentState = ScannerStates.Text;
           currentToken += char;
         } else if (char.match(/[0-9]/)) {
           currentState = ScannerStates.Number;
@@ -32,6 +30,12 @@ export function Scanner(code: string) {
           currentToken += char;
         } else if (char === '{') {
           currentState = ScannerStates.Comment;
+        } else if (char === '<') {
+          currentState = ScannerStates.LessThanOrEqualOperator;
+          currentToken += char;
+        } else if (char === '>') {
+          currentState = ScannerStates.GreaterThanOrEqualOperator;
+          currentToken += char;
         } else if (char === '(') {
           tokens.push({ type: TOKEN_TYPES.LeftParen, value: '(' });
         } else if (char === ')') {
@@ -48,18 +52,12 @@ export function Scanner(code: string) {
           tokens.push({ type: TOKEN_TYPES.EqualOperator, value: '=' });
         } else if (char === ';') {
           tokens.push({ type: TOKEN_TYPES.SIMICOLON, value: ';' });
-        } else if (char === '<') {
-          currentState = ScannerStates.LessThanOrEqualOperator;
-          currentToken += char;
-        } else if (char === '>') {
-          currentState = ScannerStates.GreaterThanOrEqualOperator;
-          currentToken += char;
         } else {
           errors.push(`Invalid token: ${char}`);
         }
         break;
 
-      case ScannerStates.Identifier:
+      case ScannerStates.Text:
         if (char.match(/[a-zA-Z0-9]/)) {
           currentToken += char;
         } else {
@@ -86,6 +84,7 @@ export function Scanner(code: string) {
           tokens.push({ type: TOKEN_TYPES.AssignOperator, value: ':=' });
         } else {
           errors.push('Invalid token ":"');
+          i--;
         }
         currentState = ScannerStates.Start;
         currentToken = '';
@@ -131,28 +130,25 @@ export function Scanner(code: string) {
     }
   }
 
-  if (currentState === ScannerStates.Identifier) {
-    tokens.push(checkIdentifierType(currentToken));
-  }
-
-  if (currentState === ScannerStates.Number) {
-    tokens.push({ type: TOKEN_TYPES.Number, value: currentToken });
-  }
-
-  if (currentState === ScannerStates.AssignOperator) {
-    errors.push('Invalid token ":"');
-  }
-
-  if (currentState === ScannerStates.LessThanOrEqualOperator) {
-    tokens.push({ type: TOKEN_TYPES.LessThanOperator, value: '<' });
-  }
-
-  if (currentState === ScannerStates.GreaterThanOrEqualOperator) {
-    tokens.push({ type: TOKEN_TYPES.GreaterThanOperator, value: '>' });
-  }
-
-  if (currentState === ScannerStates.Comment) {
-    errors.push('Invalid comment');
+  switch (currentState) {
+    case ScannerStates.Text:
+      tokens.push(checkIdentifierType(currentToken));
+      break;
+    case ScannerStates.Number:
+      tokens.push({ type: TOKEN_TYPES.Number, value: currentToken });
+      break;
+    case ScannerStates.AssignOperator:
+      errors.push('Invalid token ":"');
+      break;
+    case ScannerStates.LessThanOrEqualOperator:
+      tokens.push({ type: TOKEN_TYPES.LessThanOperator, value: '<' });
+      break;
+    case ScannerStates.GreaterThanOrEqualOperator:
+      tokens.push({ type: TOKEN_TYPES.GreaterThanOperator, value: '>' });
+      break;
+    case ScannerStates.Comment:
+      errors.push('Invalid comment');
+      break;
   }
 
   return { tokens, errors };

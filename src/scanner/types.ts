@@ -30,11 +30,11 @@ export type Token = {
 };
 
 export enum ScannerStates {
-  Start = 'start',
-  Identifier = 'identifier',
-  Number = 'number',
-  AssignOperator = 'assignOperator',
-  Comment = 'comment',
-  LessThanOrEqualOperator = 'lessThanOrEqualOperator',
-  GreaterThanOrEqualOperator = 'greaterThanOrEqualOperator',
+  Start,
+  Text,
+  Number,
+  AssignOperator,
+  Comment,
+  LessThanOrEqualOperator,
+  GreaterThanOrEqualOperator,
 }
