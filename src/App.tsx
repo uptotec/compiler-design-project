@@ -17,10 +17,15 @@ function App() {
     setErrors(errors);
   };
 
+  const generateLineNumbers = () => {
+    const lines = code.split('\n').length;
+    return Array.from({ length: lines }, (_, i) => i + 1).join('\n');
+  };
+
   return (
     <div className="w-screen h-screen bg-gray-900 p-4">
       <div className="h-full flex gap-4">
-        <div className="w-2/5 flex flex-col h-auto overflow-x-auto shadow-md sm:rounded-lg bg-gray-800">
+        <div className="w-2/5 flex flex-col h-auto overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg bg-gray-800">
           <caption className="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800 flex justify-between items-center">
             TINY Code
             <button
@@ -31,11 +36,16 @@ function App() {
               Run
             </button>
           </caption>
-          <textarea
-            className="bg-gray-800 text-white h-full p-4 mx-5 mb-5 border border-white rounded-lg"
-            value={code}
-            onChange={handleChange}
-          ></textarea>
+          <div className="flex h-full px-4">
+            <div className="w-16 h-full bg-slate-900 resize-none">
+              <pre className="h-full m-0 p-2">{generateLineNumbers()}</pre>
+            </div>
+            <textarea
+              className="flex-grow h-full p-2 resize-none bg-slate-800 focus:outline-none"
+              value={code}
+              onChange={handleChange}
+            ></textarea>
+          </div>
         </div>
         <div className="w-2/5 shadow-md sm:rounded-lg overflow-y-scroll bg-gray-800">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

@@ -1,0 +1,57 @@
+{ TINY program to calculate the sum of numbers from 1 to n }
+
+read n;          { Input the number }
+sum := 0;        { Initialize sum variable }
+i := 1;          { Initialize loop counter }
+
+{ Calculate sum }
+repeat
+        sum := sum + i;
+        i := i + 1;
+until i <= n;
+
+write sum;       { Output the sum }
+
+---------------------------------
+
+
+{ TINY program to calculate the average of a set of numbers }
+
+count := 0;      { Initialize count of numbers }
+sum := 0;        { Initialize sum variable }
+
+repeat
+    read num;    { Input a number }
+    sum := sum + num;
+    count := count + 1;
+until num = 0;   { Stop when 0 is entered }
+
+{ Calculate and output average }
+if count > 0 then
+    average := sum / count;
+else
+    average := 0;
+
+write average;   { Output the average }
+
+
+--------------------
+
+
+{ TINY program to find the maximum of three numbers }
+
+{ Input three numbers }
+read a;
+read b;
+read c;
+
+max := a;        { Assume 'a' is the maximum }
+
+if b > max then
+    max := b;    { Update 'max' if 'b' is greater }
+
+if c > max then
+    max := c;    { Update 'max' if 'c' is greater }
+
+write max;       { Output the maximum }
+
