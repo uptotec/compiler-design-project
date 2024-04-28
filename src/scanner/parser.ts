@@ -133,7 +133,7 @@ export function Parser(tokens: Token[]): ParseNode {
     );
 
     if (!match(TOKEN_TYPES.SIMICOLON)) {
-      throw new Error('Expected semicolon');
+      throw new Error(`Expected semicolon at index ${currentIndex}`);
     }
 
     return readNode;
@@ -145,7 +145,7 @@ export function Parser(tokens: Token[]): ParseNode {
     writeNode.children.push(parseExpression());
 
     if (!match(TOKEN_TYPES.SIMICOLON)) {
-      throw new Error('Expected semicolon');
+      throw new Error(`Expected semicolon at index ${currentIndex}`);
     }
 
     return writeNode;

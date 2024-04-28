@@ -30,6 +30,8 @@ function App() {
           setErrors([...errors, e.message]);
         }
       }
+    } else {
+      setParseTree(null);
     }
   };
 
