@@ -13,7 +13,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  @apply bg-gray-900;
+  @apply bg-transparent rounded-lg;
 }
 
 /* Handle */

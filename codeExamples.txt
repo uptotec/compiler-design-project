@@ -31,6 +31,7 @@ if count > 0 then
     average := sum / count;
 else
     average := 0;
+end
 
 write average;   { Output the average }
 
@@ -49,9 +50,11 @@ max := a;        { Assume 'a' is the maximum }
 
 if b > max then
     max := b;    { Update 'max' if 'b' is greater }
+end
 
 if c > max then
     max := c;    { Update 'max' if 'c' is greater }
+end
 
 write max;       { Output the maximum }
 

@@ -38,3 +38,20 @@ export enum ScannerStates {
   LessThanOrEqualOperator,
   GreaterThanOrEqualOperator,
 }
+
+export class ParseNode {
+  public name: string;
+  public attributes: Record<string, string | number | boolean>;
+  public children: ParseNode[];
+
+  constructor(
+    public type: string,
+    public value?: any,
+    children: ParseNode[] = []
+  ) {
+    this.name = type;
+    if (value) this.attributes = { lexeme: value };
+    else this.attributes = {};
+    this.children = children;
+  }
+}
