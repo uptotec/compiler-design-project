@@ -49,7 +49,13 @@ function App() {
           back
         </button>
         {parseTree && (
-          <Tree data={parseTree} orientation="vertical" collapsible={false} />
+          <Tree
+            data={parseTree}
+            orientation="vertical"
+            collapsible={false}
+            zoom={0.5}
+            translate={{ x: 930, y: 300 }}
+          />
         )}
       </div>
     );

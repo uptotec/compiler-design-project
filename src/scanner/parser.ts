@@ -140,7 +140,7 @@ export function Parser(tokens: Token[]): ParseNode {
   }
 
   function parseWriteStatement(): ParseNode {
-    const writeNode = new ParseNode('WriteStatement');
+    const writeNode = new ParseNode(TOKEN_TYPES.WRITE);
 
     writeNode.children.push(parseExpression());
 
@@ -162,10 +162,7 @@ export function Parser(tokens: Token[]): ParseNode {
         match(TOKEN_TYPES.GreaterThanOperator) ||
         match(TOKEN_TYPES.GreaterThanOrEqualOperator))
     ) {
-      const operatorNode = new ParseNode(
-        tokens[currentIndex - 1].type,
-        tokens[currentIndex - 1].value
-      );
+      const operatorNode = new ParseNode(tokens[currentIndex - 1].type);
       const rightNode = parseSimpleExpression();
       operatorNode.children.push(node, rightNode);
       node = operatorNode;
